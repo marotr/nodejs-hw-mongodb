@@ -5,7 +5,7 @@ export const findAllContacts = async () => {
     const contacts = await Contact.find();
     return contacts;
   } catch (error) {
-    throw new error('Error retrieving contacts');
+    throw new Error('Error retrieving contacts');
   }
 };
 
@@ -14,7 +14,7 @@ export const findContactById = async (id) => {
     const contact = await Contact.findById(id);
     return contact;
   } catch (error) {
-    throw new error('Error retrieving contact');
+    throw new Error('Error retrieving contact');
   }
 };
 
