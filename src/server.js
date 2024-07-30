@@ -3,6 +3,9 @@ import cors from 'cors';
 import pino from 'pino';
 import contactsRouter from './routers/contacts.js';
 
+import { errorHandler } from './middlewares/errorHandler.js';
+import { notFoundHandler } from './middlewares/notFoundHandler.js';
+
 const app = express();
 const logger = pino();
 
@@ -20,6 +23,9 @@ const setupServer = () => {
   });
 
   const PORT = process.env.PORT || 8081;
+
+  app.use('*', notFoundHandler);
+  app.use (errorHandler);
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
