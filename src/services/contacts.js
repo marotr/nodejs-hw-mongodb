@@ -1,5 +1,6 @@
 import Contact from '../models/contact.js';
 
+// to fetch all contacts
 export const findAllContacts = async () => {
   try {
     const contacts = await Contact.find();
@@ -8,6 +9,8 @@ export const findAllContacts = async () => {
     throw new Error('Error retrieving contacts'+ error.message);
   }
 };
+
+// to fetch contacts by ID
 
 export const findContactById = async (id) => {
   try {
@@ -21,6 +24,7 @@ export const findContactById = async (id) => {
   }
 };
 
+// to create a new contact
 
 export const createContact = async (payload)=>{
   const {name, phoneNumber, email, isFavourite, contactType} =payload;
@@ -41,4 +45,27 @@ export const createContact = async (payload)=>{
     
     throw new Error ('Error saving student:' + error.message)
   }
+}
+
+// to update a contact
+export const updateContact = async (id, payload) => {
+  try {
+    const updatedContact = await Contact.findByIdAndUpdate(id, payload, { new: true });
+    if (!updatedContact) {
+      throw new Error('Contact not found');
+    }
+    return updatedContact;
+  } catch (error) {
+    throw new Error('Error updating contact: ' + error.message);
+  }
+};
+
+// to delete a contact 
+export const deleteContact = async (contactId)=>{
+  const contact = await Contact.findOneAndDelete({
+    _id: contactId,
+  });
+
+  return contact;
+
 }
