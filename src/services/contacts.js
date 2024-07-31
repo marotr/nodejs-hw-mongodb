@@ -60,12 +60,15 @@ export const updateContact = async (id, payload) => {
   }
 };
 
-// to delete a contact 
-export const deleteContact = async (contactId)=>{
-  const contact = await Contact.findOneAndDelete({
-    _id: contactId,
-  });
-
-  return contact;
-
-}
+// to delete a contact
+export const deleteContact = async (contactId) => {
+  try {
+    const contact = await Contact.findOneAndDelete({ _id: contactId });
+    if (!contact) {
+      throw new Error('Contact not found');
+    }
+    return contact;
+  } catch (error) {
+    throw new Error('Error deleting contact: ' + error.message);
+  }
+};
