@@ -4,6 +4,8 @@ import Contact from '../models/contact.js';
 export const findAllContacts = async () => {
   try {
     const contacts = await Contact.find();
+    console.log('Retrieved contacts:', contacts); // Add this line to see the actual data
+
     return contacts;
   } catch (error) {
     throw new Error('Error retrieving contacts'+ error.message);
@@ -48,12 +50,18 @@ export const createContact = async (payload)=>{
 }
 
 // to update a contact
-export const updateContact = async (id, payload) => {
+export const updateContact = async (contactId, payload) => {
   try {
-    const updatedContact = await Contact.findByIdAndUpdate(id, payload, { new: true });
-    if (!updatedContact) {
-      throw new Error('Contact not found');
-    }
+    const updatedContact = await Contact.findOneAndUpdate(
+      { _id: contactId },
+      payload,
+      {
+        new: true,
+      },
+    );
+
+    if (!updatedContact) return null;
+
     return updatedContact;
   } catch (error) {
     throw new Error('Error updating contact: ' + error.message);
