@@ -17,9 +17,12 @@ const setupServer = () => {
     next();
   });
 
+
   app.use('/', contactsRouter);
 
+
   app.use('*', notFoundHandler);
+
 
   app.use(errorHandler);
 
