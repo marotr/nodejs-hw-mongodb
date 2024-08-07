@@ -10,7 +10,7 @@ import {
 export const getContacts = async (req, res, next) => {
   try {
     const contacts = await findAllContacts();
-    res.send({ status: 200, data: contacts });
+    res.send({ status: 200, message: 'Contacts retrieved', data: contacts });
   } catch (error) {
     next(error);
   }
@@ -21,10 +21,10 @@ export const getContactById = async (req, res, next) => {
     const { id } = req.params;
     const contact = await findContactById(id);
 
-    if (contact===null) {
+    if (!contact) {
       return next(createHttpError(404, 'Contact not found'));
     }
-    res.send({ status: 200, data: contact });
+    res.send({ status: 200, message: 'Contact retrieved', data: contact });
   } catch (error) {
     next(error);
   }
@@ -91,7 +91,7 @@ export const deleteContactController = async (req, res, next) => {
       return next(createHttpError(404, 'Contact not found'));
     }
 
-    res.status(204).end();
+    res.status(204).send({ status: 204, message: 'Contact deleted', data: null });
   } catch (error) {
     next(error);
   }

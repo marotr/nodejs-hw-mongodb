@@ -7,6 +7,7 @@ export const findAllContacts = () => {
 
 // to fetch contacts by ID
 export const findContactById = (contactId) => {
+  console.log(`Querying database for contact with ID: ${contactId}`); 
   return Contact.findById(contactId);
 };
 

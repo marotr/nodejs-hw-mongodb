@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import express from 'express'
+import express from 'express';
 import {
   getContacts,
   getContactById,
@@ -13,9 +13,9 @@ const router = Router();
 const jsonParser = express.json();
 
 router.get('/contacts', ctrlWrapper(getContacts));
-router.get('/contacts/:contactId', ctrlWrapper(getContactById));
-router.post('/contacts', jsonParser , ctrlWrapper(createContactController));
-router.patch('/contacts/:contactId', jsonParser, ctrlWrapper(patchContactController));
-router.delete('/contacts/:contactId', ctrlWrapper(deleteContactController));
+router.get('/contacts/:id', ctrlWrapper(getContactById));
+router.post('/contacts', jsonParser, ctrlWrapper(createContactController));
+router.patch('/contacts/:id', jsonParser, ctrlWrapper(patchContactController));
+router.delete('/contacts/:id', ctrlWrapper(deleteContactController));
 
 export default router;
