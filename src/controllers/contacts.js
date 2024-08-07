@@ -1,5 +1,4 @@
 import createHttpError from 'http-errors';
-
 import {
   findAllContacts,
   findContactById,
@@ -8,69 +7,92 @@ import {
   deleteContact,
 } from '../services/contacts.js';
 
-export const getContacts = async (req, res) => {
-  const students = await findAllContacts();
-
-  res.send({ status: 200, data: students });
+export const getContacts = async (req, res, next) => {
+  try {
+    const contacts = await findAllContacts();
+    res.send({ status: 200, data: contacts });
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const getContactById = async (req, res, next) => {
-  const { id } = req.params;
+  try {
+    const { id } = req.params;
+    const contact = await findContactById(id);
 
-  const contact = await findContactById(id);
-
-  if (contact === null) {
-    return next(createHttpError(404, 'Contact not found'));
+    if (contact===null) {
+      return next(createHttpError(404, 'Contact not found'));
+    }
+    res.send({ status: 200, data: contact });
+  } catch (error) {
+    next(error);
   }
-  res.send({ status: 200, data: contact });
 };
 
-export const createContactController = async (req, res) => {
-  const contact = {
-    name: req.body.name,
-    phoneNumber: req.body.phoneNumber,
-    email: req.body.email,
-    isFavourite: req.body.isFavourite,
-    contactType: req.body.contactType,
-  };
+export const createContactController = async (req, res, next) => {
+  try {
+    const { name, phoneNumber, email, isFavourite, contactType } = req.body;
 
-  const createdContact = await createContact(contact);
+    if (!name || !email || typeof phoneNumber !== 'number' || typeof isFavourite !== 'boolean' || typeof contactType !== 'string') {
+      return next(createHttpError(400, 'Invalid payload'));
+    }
 
-  res
-    .status(201)
-    .send({ status: 201, message: 'Contact created', data: createdContact });
+    const contact = {
+      name,
+      phoneNumber,
+      email,
+      isFavourite,
+      contactType,
+    };
+
+    const createdContact = await createContact(contact);
+    res.status(201).send({ status: 201, message: 'Contact created', data: createdContact });
+  } catch (error) {
+    next(error);
+  }
 };
 
-export const patchContactController = async (req, res) => {
-  const { id } = req.params;
+export const patchContactController = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { name, phoneNumber, email, isFavourite, contactType } = req.body;
 
-  const contact = {
-    name: req.body.name,
-    phoneNumber: req.body.phoneNumber,
-    email: req.body.email,
-    isFavourite: req.body.isFavourite,
-    contactType: req.body.contactType,
-  };
+    if (!name || !email || typeof phoneNumber !== 'number' || typeof isFavourite !== 'boolean' || typeof contactType !== 'string') {
+      return next(createHttpError(400, 'Invalid payload'));
+    }
 
-  const updateResult = await updateContact(id, contact);
+    const contact = {
+      name,
+      phoneNumber,
+      email,
+      isFavourite,
+      contactType,
+    };
 
-  if (updateResult.lastErrorObject.updatedExisting === true) {
-    return res.send({
-      status: 200,
-      message: 'Contact updated',
-      data: updateResult.value,
-    });
+    const updatedContact = await updateContact(id, contact);
+
+    if (!updatedContact) {
+      return next(createHttpError(404, 'Contact not found'));
+    }
+
+    res.send({ status: 200, message: 'Contact updated', data: updatedContact });
+  } catch (error) {
+    next(error);
   }
 };
 
 export const deleteContactController = async (req, res, next) => {
-  const { id } = req.params;
+  try {
+    const { id } = req.params;
+    const deletedContact = await deleteContact(id);
 
-  const deletedContact = await deleteContact(id);
+    if (!deletedContact) {
+      return next(createHttpError(404, 'Contact not found'));
+    }
 
-  if (deletedContact === null) {
-    return next(createHttpError.NotFound('Contact not found'));
+    res.status(204).end();
+  } catch (error) {
+    next(error);
   }
-
-  res.status(204).end();
 };

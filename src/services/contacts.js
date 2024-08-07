@@ -1,32 +1,30 @@
 import Contact from '../models/contact.js';
 
 // to fetch all contacts
-export function findAllContacts(){
-  return Contact.find()
-}
-
+export const findAllContacts = () => {
+  return Contact.find();
+};
 
 // to fetch contacts by ID
-export function findContactById (contactId)  {
- return Contact.findById(contactId);
+export const findContactById = (contactId) => {
+  return Contact.findById(contactId);
 };
 
 // to create a new contact
-export function createContact (payload) {
+export const createContact = (payload) => {
   return Contact.create(payload);
-}
+};
 
 // to update a contact
-export function updateContact (contactId, payload){
-return Contact.findByIdAndUpdate (contactId, payload,{
-  new:true,
-  upsert:true,
-  includeResultMetadata:true,
-});
-}
+export const updateContact = (contactId, payload) => {
+  return Contact.findByIdAndUpdate(contactId, payload, {
+    new: true,
+    upsert: true,
+    includeResultMetadata: true,
+  });
+};
 
 // to delete a contact
-export function deleteContact (contactId) {
-  return Contact.findByIdAndDelete(contactId)
-
+export const deleteContact = (contactId) => {
+  return Contact.findByIdAndDelete(contactId);
 };
