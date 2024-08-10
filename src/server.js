@@ -13,16 +13,15 @@ const setupServer = () => {
   app.use(express.json());
   app.use((req, res, next) => {
     logger.info(`${req.method} ${req.url}`);
-    console.log(`Received ${req.method} request for ${req.url}`);
     next();
   });
 
 
   app.use('/contacts', contactsRouter);
 
-
-  app.use(errorHandler);
   app.use('*', notFoundHandler);
+  app.use(errorHandler);
+ 
 
 
 
