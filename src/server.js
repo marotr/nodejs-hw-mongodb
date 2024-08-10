@@ -18,13 +18,13 @@ const setupServer = () => {
   });
 
 
-  app.use('/', contactsRouter);
-
-
-  app.use('*', notFoundHandler);
+  app.use('/contacts', contactsRouter);
 
 
   app.use(errorHandler);
+  app.use('*', notFoundHandler);
+
+
 
   const PORT = process.env.PORT || 8081;
 
