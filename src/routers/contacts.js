@@ -1,4 +1,4 @@
-import { Router } from 'express';
+
 import express from 'express';
 import {
   getContacts,
@@ -9,7 +9,7 @@ import {
 } from '../controllers/contacts.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 
-const router = Router();
+const router = express.Router();
 const jsonParser = express.json();
 
 router.get('/contacts', ctrlWrapper(getContacts));

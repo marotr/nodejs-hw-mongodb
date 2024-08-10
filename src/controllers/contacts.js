@@ -41,7 +41,13 @@ export const createContactController = async (req, res, next) => {
   try {
     const { name, phoneNumber, email, isFavourite, contactType } = req.body;
 
-    if (!name || !email || typeof phoneNumber !== 'number' || typeof isFavourite !== 'boolean' || typeof contactType !== 'string') {
+    if (
+      !name ||
+      !email ||
+      typeof phoneNumber !== 'number' ||
+      typeof isFavourite !== 'boolean' ||
+      typeof contactType !== 'string'
+    ) {
       return next(createHttpError(400, 'Invalid payload'));
     }
 
@@ -54,7 +60,9 @@ export const createContactController = async (req, res, next) => {
     };
 
     const createdContact = await createContact(contact);
-    res.status(201).send({ status: 201, message: 'Contact created', data: createdContact });
+    res
+      .status(201)
+      .send({ status: 201, message: 'Contact created', data: createdContact });
   } catch (error) {
     next(error);
   }
@@ -71,7 +79,13 @@ export const patchContactController = async (req, res, next) => {
 
     const { name, phoneNumber, email, isFavourite, contactType } = req.body;
 
-    if (!name || !email || typeof phoneNumber !== 'number' || typeof isFavourite !== 'boolean' || typeof contactType !== 'string') {
+    if (
+      !name ||
+      !email ||
+      typeof phoneNumber !== 'number' ||
+      typeof isFavourite !== 'boolean' ||
+      typeof contactType !== 'string'
+    ) {
       return next(createHttpError(400, 'Invalid payload'));
     }
 
@@ -110,7 +124,9 @@ export const deleteContactController = async (req, res, next) => {
       return next(createHttpError(404, 'Contact not found'));
     }
 
-    res.status(204).send({ status: 204, message: 'Contact deleted', data: null });
+    res
+      .status(204)
+      .send({ status: 204, message: 'Contact deleted', data: null });
   } catch (error) {
     next(error);
   }
