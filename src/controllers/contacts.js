@@ -12,7 +12,7 @@ export async function getContacts(req, res, next) {
     const contacts = await findAllContacts();
     res.send({ status: 200, message: 'Contacts retrieved', data: contacts });
   } catch (error) {
-    next(error);  // Forward error to the error handler middleware
+    next(error);  
   }
 }
 
@@ -35,16 +35,6 @@ export async function createContactController(req, res, next) {
   try {
     const { name, phoneNumber, email, isFavourite, contactType } = req.body;
 
-    if (
-      !name ||
-      !email ||
-      typeof phoneNumber !== 'number' ||
-      typeof isFavourite !== 'boolean' ||
-      typeof contactType !== 'string'
-    ) {
-      return next(createHttpError(400, 'Invalid payload'));
-    }
-
     const contact = {
       name,
       phoneNumber,
@@ -66,16 +56,6 @@ export async function patchContactController(req, res, next) {
   try {
     const { id } = req.params;
     const { name, phoneNumber, email, isFavourite, contactType } = req.body;
-
-    if (
-      !name ||
-      !email ||
-      typeof phoneNumber !== 'number' ||
-      typeof isFavourite !== 'boolean' ||
-      typeof contactType !== 'string'
-    ) {
-      return next(createHttpError(400, 'Invalid payload'));
-    }
 
     const contact = {
       name,
