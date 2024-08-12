@@ -17,12 +17,24 @@ export const createContact = (payload) => {
 };
 
 // to update a contact
-export const updateContact = (contactId, payload) => {
-  return Contact.findByIdAndUpdate(contactId, payload, {
-    new: true,
-    upsert: true,
-    includeResultMetadata: true,
-  });
+
+export const updateContact = async (contactId, payload, options = {}) => {
+  const rawResult = await Contact.findOneAndUpdate(
+    { _id: contactId },
+    payload,
+    {
+      new: true,
+      includeResultMetadata: true,
+      ...options,
+    },
+  );
+
+  if (!rawResult || !rawResult.value) return null;
+
+  return {
+    contact: rawResult.value,
+    isNew: Boolean(rawResult?.lastErrorObject?.upserted),
+  };
 };
 
 // to delete a contact
