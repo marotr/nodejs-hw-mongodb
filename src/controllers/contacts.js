@@ -7,9 +7,22 @@ import {
   deleteContact,
 } from '../services/contacts.js';
 
+import { parsePaginationParams } from '../utils/parsePaginationPage.js';
+import { parseSortParams } from '../utils/parseSortParams.js';
+import { parseFilterParams } from '../utils/parseFilterParams.js';
+
 export async function getContacts(req, res, next) {
   try {
-    const contacts = await findAllContacts();
+    const { page, perPage } = parsePaginationParams(req.query);
+    const { sortBy, sortOrder } = parseSortParams(req.query);
+    const filter = parseFilterParams(req.query);
+    const contacts = await findAllContacts({
+      page,
+      perPage,
+      sortBy,
+      sortOrder,
+      filter,
+    });
     res.status(200).json({ status: 200, message: 'Contacts retrieved', data: contacts });
   } catch (error) {
     next(error);

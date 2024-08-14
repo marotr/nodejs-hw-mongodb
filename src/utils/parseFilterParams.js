@@ -20,7 +20,7 @@ export const parseFilterParams = (query) => {
   const parsedIsFavourite = parseIsFavourite(isFavourite);
 
   return {
-    gender: parsedContactType,
+    type: parsedContactType,
     isFavourite: parsedIsFavourite,
   };
 };
