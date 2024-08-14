@@ -3,14 +3,14 @@ import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 
 // to fetch all contacts
 export const findAllContacts = async ({
-  page,
-  perPage,
-  sortBy,
-  sortOrder,
-  filter,
+  page = 1,
+  perPage = 10,
+  sortBy = '_id',
+  sortOrder = 'asc',
+  filter = {},
 }) => {
   const limit = perPage;
-  const skip = page > 0 ? (page - 1) * perPage : 0;
+  const skip = (page - 1) * perPage;
   const contactsQuery = Contact.find();
 
   if (filter.type) {
@@ -19,14 +19,15 @@ export const findAllContacts = async ({
   if (filter.isFavourite) {
     contactsQuery.where('isFavourite').equals(filter.isFavourite);
   }
-  const contactsCount = await Contact.find()
-    .merge(contactsQuery)
-    .countDocuments();
-  const contacts = await contactsQuery
-    .skip(skip)
-    .limit(limit)
-    .sort({ [sortBy]: sortOrder })
-    .exec();
+  const [contactsCount, contacts] = await Promise.all([
+    Contact.find().merge(contactsQuery).countDocuments(),
+    contactsQuery
+      .skip(skip)
+      .limit(limit)
+      .sort({ [sortBy]: sortOrder })
+      .exec(),
+
+  ]);
   const paginationData = calculatePaginationData(contactsCount, perPage, page);
 
   return {
