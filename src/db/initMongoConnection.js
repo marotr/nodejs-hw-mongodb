@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
+
 dotenv.config();
 
 const initMongoConnection = async () => {
@@ -12,7 +13,7 @@ const initMongoConnection = async () => {
     console.log('Mongo connection successfully established!');
   } catch (error) {
     console.error('Failed to connect to MongoDB', error);
-    process.exit(1); // Exit process if connection failed
+    throw error;
   }
 };
 

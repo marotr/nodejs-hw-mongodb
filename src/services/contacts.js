@@ -1,20 +1,43 @@
 import Contact from '../models/contact.js';
 
-export const findAllContacts = async () => {
-  try {
-    const contacts = await Contact.find();
-    return contacts;
-  } catch (error) {
-    throw new Error('Error retrieving contacts');
-  }
+// to fetch all contacts
+export const findAllContacts = () => {
+  return Contact.find();
 };
 
-export const findContactById = async (id) => {
-  try {
-    const contact = await Contact.findById(id);
-    return contact;
-  } catch (error) {
-    throw new Error('Error retrieving contact');
-  }
+// to fetch contacts by ID
+export const findContactById = (contactId) => {
+ 
+  return Contact.findById(contactId);
 };
 
+// to create a new contact
+export const createContact = (payload) => {
+  return Contact.create(payload);
+};
+
+// to update a contact
+
+export const updateContact = async (contactId, payload, options = {}) => {
+  const rawResult = await Contact.findOneAndUpdate(
+    { _id: contactId },
+    payload,
+    {
+      new: true,
+      includeResultMetadata: true,
+      ...options,
+    },
+  );
+
+  if (!rawResult || !rawResult.value) return null;
+
+  return {
+    contact: rawResult.value,
+    isNew: Boolean(rawResult?.lastErrorObject?.upserted),
+  };
+};
+
+// to delete a contact
+export const deleteContact = (contactId) => {
+  return Contact.findByIdAndDelete(contactId);
+};
