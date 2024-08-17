@@ -4,7 +4,8 @@ import pino from 'pino';
 import cookieParser from 'cookie-parser';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
-import router from './routers/contacts.js';
+import router from './routers/index.js';
+
 
 const app = express();
 const logger = pino();
@@ -22,7 +23,7 @@ const setupServer = () => {
   });
 
   // Routes
-  app.use('/contacts', router);
+  app.use('/', router);
 
   // Error handling
   app.use('*', notFoundHandler);

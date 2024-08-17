@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import express from 'express';
-import { loginUserSchema, registerUserSchema } from '../validation/auth';
-import { loginUserController, logoutUserController, refreshUserSessionController, registerUserController } from '../controllers/auth';
-import { validateBody } from '../middlewares/validateBody';
-import { ctrlWrapper } from '../utils/ctrlWrapper';
+import { loginUserSchema, registerUserSchema } from '../validation/auth.js';
+import { loginUserController, logoutUserController, refreshUserSessionController, registerUserController } from '../controllers/auth.js';
+import { validateBody } from '../middlewares/validateBody.js';
+import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 
 const router = Router();
 const jsonParser = express.json();
