@@ -8,15 +8,17 @@ import {
 } from '../controllers/contacts.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { validateBody } from '../middlewares/validateBody.js';
-import { createContactSchema, updateContactSchema } from '../validation/contacts.js';
+import {
+  createContactSchema,
+  updateContactSchema,
+} from '../validation/contacts.js';
 import { isValidID } from '../middlewares/isValidID.js';
 import { authenticate } from '../middlewares/authenticate.js';
+import { checkContactOwner } from '../middlewares/checkContactOwner.js';
 
 const router = express.Router();
 
-
 router.use(express.json());
-
 
 router.get('/', ctrlWrapper(getContacts));
 router.get('/:id', isValidID, ctrlWrapper(getContactById));
@@ -24,23 +26,29 @@ router.get('/:id', isValidID, ctrlWrapper(getContactById));
 router.post(
   '/',
   validateBody(createContactSchema),
-  ctrlWrapper(createContactController)
+  ctrlWrapper(createContactController),
 );
 
 router.post(
   '/register',
   validateBody(createContactSchema),
-  ctrlWrapper(createContactController)
+  ctrlWrapper(createContactController),
 );
 
 router.patch(
   '/:id',
   isValidID,
+  checkContactOwner,
   validateBody(updateContactSchema),
-  ctrlWrapper(patchContactController)
+  ctrlWrapper(patchContactController),
 );
 
-router.delete('/:id', isValidID, ctrlWrapper(deleteContactController));
+router.delete(
+  '/:id',
+  isValidID,
+  checkContactOwner,
+  ctrlWrapper(deleteContactController),
+);
 
 router.use(authenticate);
 
