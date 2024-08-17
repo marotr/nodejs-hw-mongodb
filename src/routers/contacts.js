@@ -27,10 +27,11 @@ router.post(
 );
 
 router.post(
-  'register',
+  '/register',
   validateBody(createContactSchema),
   ctrlWrapper(createContactController)
-)
+);
+
 router.patch(
   '/:id',
   isValidID,
