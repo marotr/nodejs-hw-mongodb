@@ -7,6 +7,8 @@ import { SessionsCollection } from '../models/session.js';
 
 import { randomBytes } from 'crypto';
 
+//Register User
+
 export const registerUser = async (payload) => {
   const user = await UsersCollection.findOne({ email: payload.email });
   if (user) throw createHttpError(409, 'Email in use');
@@ -19,7 +21,7 @@ export const registerUser = async (payload) => {
   });
 };
 
-
+//LOGIN
 export const loginUser = async (payload) => {
   const user = await UsersCollection.findOne({ email: payload.email });
   if (!user) {
@@ -44,3 +46,8 @@ export const loginUser = async (payload) => {
     refreshTokenValidUntil: new Date(Date.now() + ONE_MONTH),
   });
 };
+
+// LOGOUT
+export const logoutUser = async (sessionId) => {
+    await SessionsCollection.deleteOne({ _id: sessionId });
+  };
