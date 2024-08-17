@@ -1,6 +1,6 @@
 
 import createHttpError from 'http-errors';
-import Contact from '../models/contact';
+import Contact from '../models/contact.js';
 
 
 export const checkContactOwner = async (req, res, next) => {
