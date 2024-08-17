@@ -33,3 +33,30 @@ export const registerUserSchema = Joi.object({
       'password.doesNotInclude': '{#label} is too common',
     }),
 });
+
+
+export const loginUserSchema = Joi.object({
+    email: Joi.string().min(3).max(255).email().required().messages({
+        'string.base': 'Email should be a string',
+        'string.email': 'Email must be a valid email',
+        'any.required': 'Email is required',
+      }),
+      password: joiPassword.string()
+      .minOfSpecialCharacters(1)
+      .minOfLowercase(4)
+      .minOfUppercase(1)
+      .minOfNumeric(1)
+      .noWhiteSpaces()
+      .onlyLatinCharacters()
+      .doesNotInclude(['password'])
+      .required()
+      .messages({
+        'password.minOfUppercase': '{#label} should contain at least {#min} uppercase character',
+        'password.minOfSpecialCharacters': '{#label} should contain at least {#min} special character',
+        'password.minOfLowercase': '{#label} should contain at least {#min} lowercase character',
+        'password.minOfNumeric': '{#label} should contain at least {#min} numeric character',
+        'password.noWhiteSpaces': '{#label} should not contain white spaces',
+        'password.onlyLatinCharacters': '{#label} should contain only Latin characters',
+        'password.doesNotInclude': '{#label} is too common',
+      }),
+  });
