@@ -10,6 +10,7 @@ import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { createContactSchema, updateContactSchema } from '../validation/contacts.js';
 import { isValidID } from '../middlewares/isValidID.js';
+import { authenticate } from '../middlewares/authenticate.js';
 
 const router = express.Router();
 
@@ -40,5 +41,9 @@ router.patch(
 );
 
 router.delete('/:id', isValidID, ctrlWrapper(deleteContactController));
+
+router.use(authenticate);
+
+router.get('/', ctrlWrapper(getContacts));
 
 export default router;
