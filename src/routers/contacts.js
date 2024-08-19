@@ -19,7 +19,13 @@ import { checkContactOwner } from '../middlewares/checkContactOwner.js';
 const router = express.Router();
 
 router.use(express.json());
+router.post(
+  '/register',
+  validateBody(createContactSchema),
+  ctrlWrapper(createContactController),
+);
 
+router.use(authenticate);
 router.get('/', ctrlWrapper(getContacts));
 router.get('/:id', isValidID, ctrlWrapper(getContactById));
 
@@ -29,11 +35,7 @@ router.post(
   ctrlWrapper(createContactController),
 );
 
-router.post(
-  '/register',
-  validateBody(createContactSchema),
-  ctrlWrapper(createContactController),
-);
+
 
 router.patch(
   '/:id',
@@ -50,8 +52,6 @@ router.delete(
   ctrlWrapper(deleteContactController),
 );
 
-router.use(authenticate);
 
-router.get('/', ctrlWrapper(getContacts));
 
 export default router;

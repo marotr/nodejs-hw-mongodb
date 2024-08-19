@@ -8,7 +8,7 @@ export const findAllContacts = async ({
   sortBy = '_id',
   sortOrder = 'asc',
   filter = {},
-  userId
+  userId,
 }) => {
   const limit = perPage;
   const skip = (page - 1) * perPage;
@@ -20,14 +20,23 @@ export const findAllContacts = async ({
   if (filter.isFavourite) {
     contactsQuery.where('isFavourite').equals(filter.isFavourite);
   }
+  // const [contactsCount, contacts] = await Promise.all([
+  //   Contact.find().merge(contactsQuery).countDocuments(),
+  //   contactsQuery
+  //     .skip(skip)
+  //     .limit(limit)
+  //     .sort({ [sortBy]: sortOrder })
+  //     .exec(),
+
+  // ]);
+
   const [contactsCount, contacts] = await Promise.all([
-    Contact.find().merge(contactsQuery).countDocuments(),
+    Contact.find({ userId, ...filter }).countDocuments(),
     contactsQuery
       .skip(skip)
       .limit(limit)
       .sort({ [sortBy]: sortOrder })
       .exec(),
-
   ]);
   const paginationData = calculatePaginationData(contactsCount, perPage, page);
 
@@ -37,11 +46,10 @@ export const findAllContacts = async ({
   };
 };
 
-
 // to fetch contacts by ID
 export const findContactById = ({ _id, userId }) => {
- 
-  return Contact.findById({ _id, userId });
+  return Contact.findOne({ _id, userId });
+  // return Contact.findById({ _id, userId });
 };
 
 // to create a new contact
@@ -50,8 +58,8 @@ export const createContact = (payload) => {
 };
 
 // to update a contact
-export const updateContact = (contactId, userId,payload) => {
-  return Contact.findByIdAndUpdate({ _id: contactId, userId }, payload, {
+export const updateContact = (contactId, userId, payload) => {
+  return Contact.findOneAndUpdate({ _id: contactId, userId }, payload, {
     new: true,
     upsert: true,
     includeResultMetadata: true,
@@ -60,5 +68,5 @@ export const updateContact = (contactId, userId,payload) => {
 
 // to delete a contact
 export const deleteContact = (contactId, userId) => {
-  return Contact.findByIdAndDelete({ _id: contactId, userId });
+  return Contact.findOneAndDelete({ _id: contactId, userId });
 };
