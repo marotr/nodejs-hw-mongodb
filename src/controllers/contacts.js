@@ -13,7 +13,7 @@ import { parseFilterParams } from '../utils/parseFilterParams.js';
 
 export async function getContacts(req, res, next) {
   try {
-    console.log('User ID in getContacts:', req.user._id);
+    
     const { page, perPage } = parsePaginationParams(req.query);
     const { sortBy, sortOrder } = parseSortParams(req.query);
     const filter = parseFilterParams(req.query);
