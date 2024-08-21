@@ -3,6 +3,7 @@ import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 
 // to fetch all contacts
 export const findAllContacts = async ({
+  
   page = 1,
   perPage = 10,
   sortBy = '_id',
@@ -10,9 +11,12 @@ export const findAllContacts = async ({
   filter = {},
   userId,
 }) => {
+  
   const limit = perPage;
   const skip = (page - 1) * perPage;
-  const contactsQuery = Contact.find({ userId, ...filter });
+
+  const contactsQuery = Contact.find({ userId });
+ 
 
   if (filter.type) {
     contactsQuery.where('type').equals(filter.type);
@@ -20,24 +24,17 @@ export const findAllContacts = async ({
   if (filter.isFavourite) {
     contactsQuery.where('isFavourite').equals(filter.isFavourite);
   }
-  // const [contactsCount, contacts] = await Promise.all([
-  //   Contact.find().merge(contactsQuery).countDocuments(),
-  //   contactsQuery
-  //     .skip(skip)
-  //     .limit(limit)
-  //     .sort({ [sortBy]: sortOrder })
-  //     .exec(),
 
-  // ]);
 
-  const [contactsCount, contacts] = await Promise.all([
-    Contact.find({ userId, ...filter }).countDocuments(),
-    contactsQuery
+  const contactsCount = await Contact.find({ userId }) 
+      .merge(contactsQuery)
+      .countDocuments();
+
+  const contacts = await contactsQuery
       .skip(skip)
       .limit(limit)
       .sort({ [sortBy]: sortOrder })
-      .exec(),
-  ]);
+      .exec();
   const paginationData = calculatePaginationData(contactsCount, perPage, page);
 
   return {
