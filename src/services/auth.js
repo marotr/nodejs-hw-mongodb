@@ -2,10 +2,13 @@ import bcrypt from 'bcrypt';
 
 import { UsersCollection } from '../models/user.js';
 import createHttpError from 'http-errors';
-import { FIFTEEN_MINUTES, ONE_MONTH } from '../constants/index.js';
+import { FIFTEEN_MINUTES, ONE_MONTH, SMTP } from '../constants/index.js';
 import { SessionsCollection } from '../models/session.js';
 
 import { randomBytes } from 'crypto';
+import { sendEmail } from '../utils/sendMail.js';
+import { jwt} from 'jsonwebtoken';
+// import Contact from '../models/contact.js';
 
 //Register User
 
@@ -94,4 +97,29 @@ export const logoutUser = async (sessionId) => {
       userId: session.userId,
       ...newSession,
     });
+  };
+
+  //Reset email
+
+  export const requestResetToken = async (email) => {
+    const user = await UsersCollection.findOne({ email });
+    if (!user) {
+      throw createHttpError(404, 'User not found');
+    }
+    const resetToken = jwt.sign(
+      {
+        sub: user._id,
+        email,
+      },
+      process.env('JWT_SECRET'),
+      {
+        expiresIn: '15m',
+      },
+    );
+   sendEmail({
+    from:SMTP.FROM_EMAIL,
+    to:email,
+    subject:"Reset your password",
+    html: `<p>Click <a href="${resetToken}">here</a> to reset your password!</p>`
+   })
   };

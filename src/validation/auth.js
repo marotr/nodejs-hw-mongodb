@@ -60,3 +60,11 @@ export const loginUserSchema = Joi.object({
         'password.doesNotInclude': '{#label} is too common',
       }),
   });
+
+  export const requestResetEmailSchema = Joi.object({
+    email: Joi.string().email().required().messages({
+      'string.base': 'Email should be a string',
+      'string.email': 'Email must be a valid email',
+      'any.required': 'Email is required',})
+  
+  });
