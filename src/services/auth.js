@@ -7,12 +7,12 @@ import { SessionsCollection } from '../models/session.js';
 
 import { randomBytes } from 'crypto';
 import { sendEmail } from '../utils/sendMail.js';
-import { jwt} from 'jsonwebtoken';
+import  jwt from 'jsonwebtoken';
 import path from 'path';
 import fs from 'node:fs/promises';
 import handlebars from 'handlebars'
 
-// import Contact from '../models/contact.js';
+
 
 //Register User
 
