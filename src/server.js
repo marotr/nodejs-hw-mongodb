@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import router from './routers/index.js'
+import { UPLOAD_DIR } from './constants/index.js';
 
 
 const app = express();
@@ -39,5 +40,8 @@ const setupServer = () => {
     console.log(`Server is running on port ${PORT}`);
   });
 };
+
+//Upload photos
+app.use('/uploads', express.static(UPLOAD_DIR));
 
 export default setupServer;
