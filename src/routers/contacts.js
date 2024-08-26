@@ -32,9 +32,9 @@ router.get('/:id', isValidID, ctrlWrapper(getContactById));
 
 router.post(
   '/',
-  upload.single("photo"),
-  validateBody(createContactSchema),
-  ctrlWrapper(createContactController),
+  upload.single('photo'), 
+  validateBody(createContactSchema), 
+  ctrlWrapper(createContactController) 
 );
 
 

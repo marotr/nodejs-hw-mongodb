@@ -12,7 +12,7 @@ import { TEMP_UPLOAD_DIR, UPLOAD_DIR } from './constants/index.js';
 
 
 const startServer = async () => {
-  try {
+ 
     await initMongoConnection();
     console.log('Connected to MongoDB');
 
@@ -22,10 +22,7 @@ const startServer = async () => {
     
  
     setupServer();
-  } catch (error) {
-    console.error('Error starting the server:', error);
-    process.exit(1); 
-  }
+
 };
 
 
