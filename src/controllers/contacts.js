@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import * as fs from 'node:fs/promises';
 import path from 'node:path';
 
@@ -13,13 +15,11 @@ import {
 import { parsePaginationParams } from '../utils/parsePaginationPage.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
-import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
+
 import { saveFileToUploadDir } from '../utils/saveFiletoUploadDir.js';
+import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
 
 
-
-
-console.log("Test log");
 
 
 export async function getContacts(req, res, next) {
@@ -101,11 +101,13 @@ export const createContactController = async (req, res, next) => {
 
 export const patchContactController = async (req, res, next) => {
 
-  console.log('Updated Contact:', updateContact);
+  console.log('Request File:', req.file);
   const { contactId } = req.params;
   const photo = req.file;
+  console.log('Request File:', req.file);
 
   let photoUrl;
+ 
 
   if (photo) {
     if (process.env.ENABLE_CLOUDINARY === 'true') {
@@ -120,8 +122,9 @@ export const patchContactController = async (req, res, next) => {
     photo: photoUrl,
   });
 
+  console.log('updateContact:', updateContact);
 
-
+console.log('updateContact:', result);
   if (!result) {
     next(createHttpError(404, 'Contact not found'));
     return;

@@ -1,6 +1,9 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import cloudinary from 'cloudinary';
-
 import fs from 'node:fs/promises';
+
+
 
 cloudinary.v2.config({
   secure: true,
@@ -14,3 +17,11 @@ export const saveFileToCloudinary = async (file) => {
   await fs.unlink(file.path);
   return response.secure_url;
 };
+
+
+// export const saveFileToCloudinary = async (file) => {
+//   console.log('Uploading file to Cloudinary:', file.path);
+//   const response = await cloudinary.v2.uploader.upload(file.path);
+//   await fs.unlink(file.path);
+//   return response.secure_url;
+// }

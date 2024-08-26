@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import bcrypt from 'bcrypt';
 
 import { UsersCollection } from '../models/user.js';
