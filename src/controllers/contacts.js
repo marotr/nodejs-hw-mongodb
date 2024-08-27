@@ -17,7 +17,8 @@ import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
 
 import { saveFileToUploadDir } from '../utils/saveFiletoUploadDir.js';
-import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
+import { saveFileToCloudinary } from '../utils/saveFileTOCloudinary.js';
+
 
 export async function getContacts(req, res, next) {
   try {
@@ -94,15 +95,16 @@ export const createContactController = async (req, res) => {
 export const patchContactController = async (req, res, next) => {
   const { id: contactId } = req.params;
   const userId = req.user._id;
-  const photo = req.file;
 
-  let photoUrl;
 
-  if (photo) {
+  let photoUrl=null;
+
+  if (req.file) {
+    const filePath = req.file.path; 
     if (process.env.ENABLE_CLOUDINARY === 'true') {
-      photoUrl = await saveFileToCloudinary(photo);
+      photoUrl = await saveFileToCloudinary(filePath);
     } else {
-      photoUrl = await saveFileToUploadDir(photo);
+      photoUrl = await saveFileToUploadDir(filePath);
     }
   }
 
