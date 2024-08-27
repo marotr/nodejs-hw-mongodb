@@ -61,7 +61,7 @@ export async function getContactById(req, res, next) {
     next(error);
   }
 }
-
+//create Controller 
 export const createContactController = async (req, res) => {
   let photo = null;
 
@@ -91,7 +91,7 @@ export const createContactController = async (req, res) => {
     data: contact,
   });
 };
-
+//Patch Controller 
 export const patchContactController = async (req, res, next) => {
   const { id: contactId } = req.params;
   const userId = req.user._id;
@@ -124,6 +124,8 @@ export const patchContactController = async (req, res, next) => {
     data: result.student,
   });
 };
+
+//Delete Controller
 
 export async function deleteContactController(req, res, next) {
   try {
