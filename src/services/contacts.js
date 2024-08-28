@@ -59,7 +59,7 @@ export const updateContact = (contactId, userId, payload) => {
   return Contact.findOneAndUpdate({ _id: contactId, userId }, payload, {
     new: true,
     upsert: true,
-    includeResultMetadata: true,
+  
   });
 };
 
