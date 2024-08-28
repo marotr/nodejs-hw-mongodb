@@ -115,9 +115,9 @@ export const logoutUser = async (sessionId) => {
     const resetToken = jwt.sign(
       {
         sub: user._id,
-        email,
+        email: user.email,
       },
-      process.env('JWT_SECRET'),
+      process.env.JWT_SECRET,
       {
         expiresIn: '15m',
       },

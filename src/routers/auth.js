@@ -39,7 +39,6 @@ router.post('/refresh', ctrlWrapper(refreshUserSessionController));
 
 router.post(
   '/send-reset-email',
-  jsonParser,
   validateBody(requestResetEmailSchema),
   ctrlWrapper(requestResetEmailController),
 );
