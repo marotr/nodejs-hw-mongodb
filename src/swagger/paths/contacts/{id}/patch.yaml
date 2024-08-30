@@ -1,0 +1,102 @@
+tags:
+  - Contacts
+summary: Update a contact by ID
+operationId: updateContactById
+description: Update details of an existing contact using their unique identifier.
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: contactId
+    required: true
+    description: The unique identifier of the contact.
+    schema:
+      type: string
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+            example: Maria
+          phoneNumber:
+            type: string
+            example: 1234567
+          email:
+            type: string
+            example: mary@example.com
+          contactType:
+            type: string
+            example: personal
+          isFavourite:
+            type: boolean
+            example: false
+responses:
+  200:
+    description: Contact updated successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Contact updated successfully
+            data:
+              type: object
+              properties:
+                _id:
+                  type: string
+                  example: 66c9f7308580fb28c274c5e3
+                name:
+                  type: string
+                  example: Maria
+                phoneNumber:
+                  type: string
+                  example: 1234567
+                email:
+                  type: string
+                  example: mary@example.com
+                contactType:
+                  type: string
+                  example: personal
+                isFavourite:
+                  type: boolean
+                  example: false
+                userId:
+                  type: string
+                  example: 66c9f2e768d7fb7bcf951f54
+                photo:
+                  type: string
+                  example: "https://example.com/photo.png"
+                createdAt:
+                  type: string
+                  format: date-time
+                  example: "2024-08-24T15:07:28.854Z"
+                updatedAt:
+                  type: string
+                  format: date-time
+                  example: "2024-08-28T04:04:50.472Z"
+  404:
+    description: Contact not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 404
+            message:
+              type: string
+              example: Contact not found

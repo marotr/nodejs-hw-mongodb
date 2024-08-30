@@ -9,6 +9,7 @@ import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import router from './routers/index.js'
 import { UPLOAD_DIR } from './constants/index.js';
+import { swaggerDocs } from './middlewares/swaggerDocs.js';
 
 
 const app = express();
@@ -22,7 +23,8 @@ const setupServer = () => {
 
   app.use(cookieParser());
   app.use("/avatars", express.static(path.resolve("src", "public/avatars")));
-
+  app.use('/uploads', express.static(UPLOAD_DIR));
+  app.use('/api-docs', swaggerDocs());
   // Logging
   app.use((req, res, next) => {
     logger.info(`${req.method} ${req.url}`);
