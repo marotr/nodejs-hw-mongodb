@@ -1,6 +1,5 @@
-
 tags:
-  Contacts
+  -  Contacts
 summary: Get all contacts
 operationId: getAllContacts
 description: Retrieve a list of all contacts.
@@ -48,9 +47,7 @@ responses:
               type: string
               example: Contacts retrieved successfully
             data:
-              type: array
-              items:
-                $ref: '../../../components/schemas/contact.yaml'
+               $ref: ../../components/schemas/contacts.yaml
   '404':
     description: No contacts found
     content:
