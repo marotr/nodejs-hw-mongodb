@@ -13,7 +13,7 @@ tags:
     description: Auth operations.
 servers:
   - url: http://127.0.0.1:8080
-  - url: https://nodejs-hw-mongodb-7-mtbl.onrender.com
+  - url: https://nodejs-hw-mongodb-7-xywv.onrender.com
 paths:
   /contacts:
     get:
