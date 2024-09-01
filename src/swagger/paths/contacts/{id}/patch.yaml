@@ -88,15 +88,4 @@ responses:
                   format: date-time
                   example: "2024-08-28T04:04:50.472Z"
   404:
-    description: Contact not found
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            status:
-              type: integer
-              example: 404
-            message:
-              type: string
-              example: Contact not found
+    $ref: '../../../components/responses/404.yaml'
