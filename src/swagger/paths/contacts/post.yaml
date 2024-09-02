@@ -8,7 +8,7 @@ security:
 requestBody:
   required: true
   content:
-    application/json:
+    multipart/form-data:
       schema:
         type: object
         properties:
@@ -27,6 +27,10 @@ requestBody:
           isFavourite:
             type: boolean
             example: false
+          photo:
+            type: string
+            format: binary
+            description: An optional image file for the contact.
 responses:
   201:
     description: Contact created successfully
