@@ -14,7 +14,7 @@
       "url": "http://127.0.0.1:8080"
     },
     {
-      "url": "https://nodejs-hw-mongodb-7-mtbl.onrender.com"
+      "url": "https://nodejs-hw-mongodb-7-xywv.onrender.com"
     }
   ],
   "tags": [
@@ -48,8 +48,12 @@
             "schema": {
               "type": "string",
               "enum": [
+                "_id",
                 "name",
+                "phoneNumber",
                 "email",
+                "isFavourite",
+                "contactType",
                 "createdAt"
               ]
             },
@@ -69,19 +73,24 @@
           },
           {
             "in": "query",
-            "name": "limit",
+            "name": "type",
             "schema": {
-              "type": "integer"
+              "type": "string",
+              "enum": [
+                "personal",
+                "home",
+                "work"
+              ]
             },
-            "description": "Maximum number of contacts to return."
+            "description": "Filter contacts by type (personal, home, work)."
           },
           {
             "in": "query",
-            "name": "offset",
+            "name": "isFavourite",
             "schema": {
-              "type": "integer"
+              "type": "boolean"
             },
-            "description": "Number of contacts to skip before starting to collect the result set."
+            "description": "Filter contacts by whether they are marked as favourite (true or false)."
           }
         ],
         "responses": {
@@ -133,7 +142,7 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "properties": {
@@ -156,6 +165,11 @@
                   "isFavourite": {
                     "type": "boolean",
                     "example": false
+                  },
+                  "photo": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "An optional image file for the contact."
                   }
                 }
               }
@@ -342,7 +356,7 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "properties": {
