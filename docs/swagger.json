@@ -35,7 +35,7 @@
         ],
         "summary": "Get all contacts",
         "operationId": "getAllContacts",
-        "description": "Retrieve a list of all contacts.",
+        "description": "Retrieve a list of all contacts with pagination.",
         "security": [
           {
             "bearerAuth": []
@@ -91,6 +91,24 @@
               "type": "boolean"
             },
             "description": "Filter contacts by whether they are marked as favourite (true or false)."
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            },
+            "description": "Page number for pagination."
+          },
+          {
+            "in": "query",
+            "name": "perPage",
+            "schema": {
+              "type": "integer",
+              "example": 10
+            },
+            "description": "Number of contacts per page for pagination."
           }
         ],
         "responses": {
@@ -115,7 +133,27 @@
                       "example": "Contacts retrieved successfully"
                     },
                     "data": {
-                      "$ref": "#/components/schemas/contacts"
+                      "type": "object",
+                      "properties": {
+                        "contacts": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/contacts"
+                          }
+                        },
+                        "page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "perPage": {
+                          "type": "integer",
+                          "example": 10
+                        },
+                        "total": {
+                          "type": "integer",
+                          "example": 100
+                        }
+                      }
                     }
                   }
                 }
@@ -145,6 +183,12 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
+                "required": [
+                  "name",
+                  "phoneNumber",
+                  "email",
+                  "contactType - isFavourite"
+                ],
                 "properties": {
                   "name": {
                     "type": "string",
@@ -379,6 +423,11 @@
                   "isFavourite": {
                     "type": "boolean",
                     "example": false
+                  },
+                  "photo": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "An image file for the contact"
                   }
                 }
               }
